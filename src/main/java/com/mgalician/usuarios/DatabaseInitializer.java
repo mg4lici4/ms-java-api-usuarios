@@ -37,8 +37,12 @@ public class DatabaseInitializer implements CommandLineRunner {
         cuenta1.setNumeroCuenta(1275631);
         cuenta1.setIngresos(37450.50f);
         
+        CuentaEntity cuenta2 = new CuentaEntity();
+        cuenta2.setNumeroCuenta(3465081);
+        cuenta2.setIngresos(21000.00f);
 
         cuentaRepository.save(cuenta1);
+        cuentaRepository.save(cuenta2);
         
         DireccionEntity direccion1 = new DireccionEntity();
         direccion1.setCodigoPostal("13610");
@@ -69,6 +73,7 @@ public class DatabaseInitializer implements CommandLineRunner {
         usuario2.setApellidoPaterno("Avendaño");
         usuario2.setApellidoMaterno("Ojeda");
         usuario2.setFechaNacimiento(formato.parse("07/10/1996"));
+        usuario2.setCuenta(cuenta2);
         usuario2.setDireccion(direccion2);
 
         UsuarioEntity usuario3 = new UsuarioEntity();

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 
 import com.mgalician.usuarios.mapper.ObjectMapper;
+import com.mgalician.usuarios.model.dto.ActualizarCuentaDto;
 import com.mgalician.usuarios.model.dto.CrearUsuarioDto;
 import com.mgalician.usuarios.model.dto.UsuarioDto;
 import com.mgalician.usuarios.model.entity.CuentaEntity;
@@ -52,5 +53,12 @@ public class UsuarioService {
 
         return objectMapper.mapUsuarioEntityToUsuarioDto(usuarioRepository.save(usuarioEntity));
 
+    }
+
+    public void actualizarCuentaPorIdUsuario(Long idUsuario, ActualizarCuentaDto actualizarCuentaDto) {
+        UsuarioEntity usuarioEntity = usuarioRepository.findById(idUsuario).get();
+        usuarioEntity.getCuenta().setNumeroCuenta(actualizarCuentaDto.getNumeroCuenta());
+        usuarioEntity.getCuenta().setIngresos(actualizarCuentaDto.getIngresos());
+        usuarioRepository.save(usuarioEntity);
     }
 }

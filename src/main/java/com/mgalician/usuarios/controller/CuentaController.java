@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mgalician.usuarios.model.dto.CuentaDto;
 import com.mgalician.usuarios.service.CuentaService;
 
+
 @RestController
 @RequestMapping("/api/v1/cuenta")
 public class CuentaController {

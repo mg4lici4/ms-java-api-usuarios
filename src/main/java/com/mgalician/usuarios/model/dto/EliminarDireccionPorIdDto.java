@@ -8,5 +8,5 @@ import lombok.Data;
 public class EliminarDireccionPorIdDto {
 
     @NotNull(message = "Indicar el id a eliminar")
-    private long id;
+    private Long id;
 }
