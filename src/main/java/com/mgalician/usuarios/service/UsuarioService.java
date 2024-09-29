@@ -8,19 +8,30 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import com.mgalician.usuarios.model.dto.CrearUsuarioDto;
 import com.mgalician.usuarios.model.dto.UsuarioDto;
+import com.mgalician.usuarios.model.entity.CuentaEntity;
+import com.mgalician.usuarios.model.entity.DireccionEntity;
 import com.mgalician.usuarios.model.entity.UsuarioEntity;
+import com.mgalician.usuarios.repository.CuentaRepository;
+import com.mgalician.usuarios.repository.DireccionRepository;
 import com.mgalician.usuarios.repository.UsuarioRepository;
 
 @Service
 public class UsuarioService {
 
     private final UsuarioRepository usuarioRepository;
+    private final CuentaRepository cuentaRepository;
+    private final DireccionRepository direccionRepository;
 
     private final ModelMapper modelMapper = new ModelMapper();
 
-    public UsuarioService(UsuarioRepository usuarioRepository) {
+    public UsuarioService(UsuarioRepository usuarioRepository,
+            CuentaRepository cuentaRepository,
+            DireccionRepository direccionRepository) {
         this.usuarioRepository = usuarioRepository;
+        this.cuentaRepository = cuentaRepository;
+        this.direccionRepository = direccionRepository;
     }
 
     public List<UsuarioDto> obtener() {
@@ -28,7 +39,19 @@ public class UsuarioService {
     }
 
     public UsuarioDto obtenerPorId(long id) throws NullPointerException {
-        return mapUsuarioEntityToUsuarioDto(usuarioRepository.findById(id));
+        return mapUsuarioEntityToUsuarioDto(usuarioRepository.findById(id).get());
+    }
+
+    public UsuarioDto crearUsuario(CrearUsuarioDto crearUsuarioDto) {
+        CuentaEntity cuentaEntity = cuentaRepository.save(mapCrearUsuarioDtoToCuentaEntity(crearUsuarioDto));
+        DireccionEntity direccionEntity = direccionRepository
+                .save(mapCrearUsuarioDtoToDireccionEntity(crearUsuarioDto));
+        UsuarioEntity usuarioEntity = mapCrearUsuarioDtoToUsuarioEntity(crearUsuarioDto);
+        usuarioEntity.setCuenta(cuentaEntity);
+        usuarioEntity.setDireccion(direccionEntity);
+
+        return mapUsuarioEntityToUsuarioDto(usuarioRepository.save(usuarioEntity));
+
     }
 
     private List<UsuarioDto> mapListUsuarioEntityToListUsuarioDto(Iterable<UsuarioEntity> iterableUsuarioEntities) {
@@ -41,15 +64,21 @@ public class UsuarioService {
         return userDtos;
     }
 
-    private UsuarioDto mapUsuarioEntityToUsuarioDto(Optional<UsuarioEntity> usuarioEntity) {
+    private UsuarioEntity mapCrearUsuarioDtoToUsuarioEntity(CrearUsuarioDto crearUsuarioDto) {
+        return modelMapper.map(crearUsuarioDto, UsuarioEntity.class);
+    }
 
-        if (usuarioEntity.isPresent()) {
-            return modelMapper.map(usuarioEntity.get(), UsuarioDto.class);
-        }
+    private CuentaEntity mapCrearUsuarioDtoToCuentaEntity(CrearUsuarioDto crearUsuarioDto) {
+        return modelMapper.map(crearUsuarioDto, CuentaEntity.class);
+    }
 
-        return null;
+    private DireccionEntity mapCrearUsuarioDtoToDireccionEntity(CrearUsuarioDto crearUsuarioDto) {
+        return modelMapper.map(crearUsuarioDto, DireccionEntity.class);
+    }
 
-        // throw new ResourceNotFoundException("Usuario no encontrado"));
+    private UsuarioDto mapUsuarioEntityToUsuarioDto(UsuarioEntity usuarioEntity) {
+
+        return modelMapper.map(usuarioEntity, UsuarioDto.class);
     }
 
 }
