@@ -12,6 +12,8 @@ import com.mgalician.usuarios.model.dto.BaseRespuestaDto;
 import com.mgalician.usuarios.model.dto.EliminarDireccionPorIdDto;
 import com.mgalician.usuarios.service.DireccionService;
 
+import jakarta.validation.Valid;
+
 @RestController
 @RequestMapping("/api/v1/direccion")
 public class DireccionController {
@@ -23,7 +25,7 @@ public class DireccionController {
     }
 
     @PostMapping()
-    public ResponseEntity<BaseRespuestaDto> deleteById(
+    public ResponseEntity<BaseRespuestaDto> deleteById(@Valid
             @RequestBody EliminarDireccionPorIdDto eliminarDireccionPorIdDto) {
         long start = System.currentTimeMillis();
         direccionService.eliminarPorId(eliminarDireccionPorIdDto.getId());

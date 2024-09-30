@@ -3,6 +3,7 @@ package com.mgalician.usuarios.controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mgalician.usuarios.exception.ResourceNotFoundException;
 import com.mgalician.usuarios.helper.MensajeHelper;
 import com.mgalician.usuarios.helper.TiempoRespuestaHelper;
 import com.mgalician.usuarios.model.dto.ActualizarCuentaDto;
@@ -10,6 +11,8 @@ import com.mgalician.usuarios.model.dto.BaseRespuestaDto;
 import com.mgalician.usuarios.model.dto.CrearUsuarioDto;
 import com.mgalician.usuarios.model.dto.UsuarioDto;
 import com.mgalician.usuarios.service.UsuarioService;
+
+import jakarta.validation.Valid;
 
 import java.util.List;
 
@@ -43,7 +46,7 @@ public class UsuarioController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BaseRespuestaDto> getById(@PathVariable long id) {
+    public ResponseEntity<BaseRespuestaDto> getById(@PathVariable long id) throws ResourceNotFoundException {
 
         long start = System.currentTimeMillis();
         UsuarioDto usuarioDto = usuarioService.obtenerPorId(id);
@@ -56,7 +59,7 @@ public class UsuarioController {
     }
 
     @PostMapping()
-    public ResponseEntity<BaseRespuestaDto> create(@RequestBody CrearUsuarioDto crearUsuarioDto) {
+    public ResponseEntity<BaseRespuestaDto> create(@Valid @RequestBody CrearUsuarioDto crearUsuarioDto) {
         long start = System.currentTimeMillis();
         UsuarioDto usuarioDto = usuarioService.crearUsuario(crearUsuarioDto);
 
@@ -69,7 +72,7 @@ public class UsuarioController {
 
     @PutMapping("/{idUsuario}/cuenta")
     public ResponseEntity<BaseRespuestaDto> putCuentaByIdUsuario(@PathVariable Long idUsuario,
-            @RequestBody ActualizarCuentaDto actualizarCuentaDto) {
+            @Valid @RequestBody ActualizarCuentaDto actualizarCuentaDto) {
         long start = System.currentTimeMillis();
         usuarioService.actualizarCuentaPorIdUsuario(idUsuario, actualizarCuentaDto);
 

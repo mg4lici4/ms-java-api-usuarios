@@ -1,9 +1,12 @@
 package com.mgalician.usuarios.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.mgalician.usuarios.exception.ResourceNotFoundException;
+import com.mgalician.usuarios.helper.MensajeHelper;
 import com.mgalician.usuarios.mapper.ObjectMapper;
 import com.mgalician.usuarios.model.dto.ActualizarCuentaDto;
 import com.mgalician.usuarios.model.dto.CrearUsuarioDto;
@@ -38,8 +41,14 @@ public class UsuarioService {
         return objectMapper.mapListUsuarioEntityToListUsuarioDto(usuarioRepository.findAll());
     }
 
-    public UsuarioDto obtenerPorId(long id) throws NullPointerException {
-        return objectMapper.mapUsuarioEntityToUsuarioDto(usuarioRepository.findById(id).get());
+    public UsuarioDto obtenerPorId(long id) throws NullPointerException, ResourceNotFoundException {
+
+        Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findById(id);
+        if (usuarioEntity.isPresent()) {
+            return objectMapper.mapUsuarioEntityToUsuarioDto(usuarioEntity.get());
+        }
+
+        throw new ResourceNotFoundException(MensajeHelper.ERROR_USUARIO_NO_ENCONTRADO);
     }
 
     public UsuarioDto crearUsuario(CrearUsuarioDto crearUsuarioDto) {
