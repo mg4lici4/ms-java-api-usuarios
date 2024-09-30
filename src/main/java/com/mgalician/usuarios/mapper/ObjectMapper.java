@@ -42,10 +42,10 @@ public class ObjectMapper {
     }
     
     public CuentaEntity mapCrearUsuarioDtoToCuentaEntity(CrearUsuarioDto crearUsuarioDto) {
-        return modelMapper.map(crearUsuarioDto, CuentaEntity.class);
+        return modelMapper.map(crearUsuarioDto.getCuenta(), CuentaEntity.class);
     }
 
     public DireccionEntity mapCrearUsuarioDtoToDireccionEntity(CrearUsuarioDto crearUsuarioDto) {
-        return modelMapper.map(crearUsuarioDto, DireccionEntity.class);
+        return modelMapper.map(crearUsuarioDto.getDireccion(), DireccionEntity.class);
     }
 }

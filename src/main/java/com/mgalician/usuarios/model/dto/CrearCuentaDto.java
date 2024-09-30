@@ -8,7 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class ActualizarCuentaDto {
+public class CrearCuentaDto {
     @NotNull(message = MensajeHelper.ERROR_NUMERO_CUENTA_NOT_NULL)
     @LengthAccount(message = MensajeHelper.ERROR_NUMERO_CUENTA_LONGITUD_10)
     private Long numeroCuenta;
