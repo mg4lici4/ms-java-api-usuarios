@@ -45,16 +45,16 @@ public class DatabaseInitializer implements CommandLineRunner {
         cuentaRepository.save(cuenta2);
         
         DireccionEntity direccion1 = new DireccionEntity();
-        direccion1.setCodigoPostal("13610");
+        direccion1.setCodigoPostal("136101");
         direccion1.setEstado("CDMX");
 
         DireccionEntity direccion2 = new DireccionEntity();
-        direccion2.setCodigoPostal("01980");
+        direccion2.setCodigoPostal("019802");
         direccion2.setEstado("Estado de México");
 
         DireccionEntity direccion3 = new DireccionEntity();
-        direccion2.setCodigoPostal("23965");
-        direccion2.setEstado("Guadalajara");
+        direccion3.setCodigoPostal("239365");
+        direccion3.setEstado("Guadalajara");
 
         direccionRepository.save(direccion1);
         direccionRepository.save(direccion2);

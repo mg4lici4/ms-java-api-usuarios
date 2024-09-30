@@ -9,6 +9,7 @@ import org.springframework.stereotype.Component;
 
 import com.mgalician.usuarios.model.dto.CrearUsuarioDto;
 import com.mgalician.usuarios.model.dto.CuentaDto;
+import com.mgalician.usuarios.model.dto.DireccionDto;
 import com.mgalician.usuarios.model.dto.UsuarioDto;
 import com.mgalician.usuarios.model.entity.CuentaEntity;
 import com.mgalician.usuarios.model.entity.DireccionEntity;
@@ -19,7 +20,7 @@ public class ObjectMapper {
 
     private final ModelMapper modelMapper = new ModelMapper();
 
-        public List<UsuarioDto> mapListUsuarioEntityToListUsuarioDto(Iterable<UsuarioEntity> iterableUsuarioEntities) {
+    public List<UsuarioDto> mapListUsuarioEntityToListUsuarioDto(Iterable<UsuarioEntity> iterableUsuarioEntities) {
         List<UsuarioEntity> usuarioEntities = new ArrayList<>();
         iterableUsuarioEntities.forEach(usuarioEntities::add);
 
@@ -27,6 +28,15 @@ public class ObjectMapper {
                 .map(UsuarioEntity -> modelMapper.map(UsuarioEntity, UsuarioDto.class))
                 .collect(Collectors.toList());
         return userDtos;
+    }
+
+    public List<DireccionDto> mapListDireccionEntityToListDireccionDto(Iterable<DireccionEntity> iterableDireccionEntities) {
+        List<DireccionEntity> direccionEntities = new ArrayList<>();
+        iterableDireccionEntities.forEach(direccionEntities::add);
+
+        return direccionEntities.stream()
+                .map(DireccionEntity -> modelMapper.map(DireccionEntity, DireccionDto.class))
+                .collect(Collectors.toList());
     }
 
     public UsuarioEntity mapCrearUsuarioDtoToUsuarioEntity(CrearUsuarioDto crearUsuarioDto) {
@@ -40,7 +50,7 @@ public class ObjectMapper {
     public CuentaDto mapCuentaEntityToCuentaDto(CuentaEntity cuentaEntity) {
         return modelMapper.map(cuentaEntity, CuentaDto.class);
     }
-    
+
     public CuentaEntity mapCrearUsuarioDtoToCuentaEntity(CrearUsuarioDto crearUsuarioDto) {
         return modelMapper.map(crearUsuarioDto.getCuenta(), CuentaEntity.class);
     }

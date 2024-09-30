@@ -10,6 +10,7 @@ import com.mgalician.usuarios.helper.MensajeHelper;
 import com.mgalician.usuarios.mapper.ObjectMapper;
 import com.mgalician.usuarios.model.dto.ActualizarCuentaDto;
 import com.mgalician.usuarios.model.dto.CrearUsuarioDto;
+import com.mgalician.usuarios.model.dto.EliminarUsuarioPorIdDto;
 import com.mgalician.usuarios.model.dto.UsuarioDto;
 import com.mgalician.usuarios.model.entity.CuentaEntity;
 import com.mgalician.usuarios.model.entity.DireccionEntity;
@@ -69,5 +70,18 @@ public class UsuarioService {
         usuarioEntity.getCuenta().setNumeroCuenta(actualizarCuentaDto.getNumeroCuenta());
         usuarioEntity.getCuenta().setIngresos(actualizarCuentaDto.getIngresos());
         usuarioRepository.save(usuarioEntity);
+    }
+
+    public void eliminarPorId(EliminarUsuarioPorIdDto eliminarUsuarioPorIdDto) throws ResourceNotFoundException{
+        Optional<UsuarioEntity> usuarioEntity = usuarioRepository.findById(eliminarUsuarioPorIdDto.getId());
+        if (usuarioEntity.isPresent()) {
+            UsuarioEntity usuario = usuarioEntity.get();
+            usuarioRepository.deleteById(usuario.getId());
+            cuentaRepository.deleteById(usuario.getCuenta().getId());
+            direccionRepository.deleteById(usuario.getDireccion().getId());
+            return;
+        }
+
+        throw new ResourceNotFoundException(MensajeHelper.ERROR_USUARIO_NO_ENCONTRADO);
     }
 }

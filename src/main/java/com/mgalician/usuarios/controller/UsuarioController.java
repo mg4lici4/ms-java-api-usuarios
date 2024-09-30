@@ -9,6 +9,7 @@ import com.mgalician.usuarios.helper.TiempoRespuestaHelper;
 import com.mgalician.usuarios.model.dto.ActualizarCuentaDto;
 import com.mgalician.usuarios.model.dto.BaseRespuestaDto;
 import com.mgalician.usuarios.model.dto.CrearUsuarioDto;
+import com.mgalician.usuarios.model.dto.EliminarUsuarioPorIdDto;
 import com.mgalician.usuarios.model.dto.UsuarioDto;
 import com.mgalician.usuarios.service.UsuarioService;
 
@@ -17,6 +18,7 @@ import jakarta.validation.Valid;
 import java.util.List;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -66,6 +68,18 @@ public class UsuarioController {
         BaseRespuestaDto baseRespuestaDto = new BaseRespuestaDto();
         baseRespuestaDto.setMensaje(MensajeHelper.OPERACION_CORRECTA);
         baseRespuestaDto.setDatos(usuarioDto);
+        baseRespuestaDto.setTiempoRespuesta(TiempoRespuestaHelper.obtenerPorMilisegundos(start));
+        return ResponseEntity.ok(baseRespuestaDto);
+    }
+
+    @DeleteMapping()
+    public ResponseEntity<BaseRespuestaDto> eliminarPorId(
+            @Valid @RequestBody EliminarUsuarioPorIdDto eliminarUsuarioPorIdDto) throws ResourceNotFoundException {
+        long start = System.currentTimeMillis();
+        usuarioService.eliminarPorId(eliminarUsuarioPorIdDto);
+
+        BaseRespuestaDto baseRespuestaDto = new BaseRespuestaDto();
+        baseRespuestaDto.setMensaje(MensajeHelper.OPERACION_CORRECTA);
         baseRespuestaDto.setTiempoRespuesta(TiempoRespuestaHelper.obtenerPorMilisegundos(start));
         return ResponseEntity.ok(baseRespuestaDto);
     }
