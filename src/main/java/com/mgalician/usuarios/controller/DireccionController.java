@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mgalician.usuarios.helper.MensajeHelper;
+import com.mgalician.usuarios.helper.TiempoRespuestaHelper;
 import com.mgalician.usuarios.model.dto.BaseRespuestaDto;
 import com.mgalician.usuarios.model.dto.EliminarDireccionPorIdDto;
 import com.mgalician.usuarios.service.DireccionService;
@@ -22,13 +23,14 @@ public class DireccionController {
     }
 
     @PostMapping()
-    public ResponseEntity<BaseRespuestaDto> deleteById(@RequestBody EliminarDireccionPorIdDto eliminarDireccionPorIdDto) {
+    public ResponseEntity<BaseRespuestaDto> deleteById(
+            @RequestBody EliminarDireccionPorIdDto eliminarDireccionPorIdDto) {
+        long start = System.currentTimeMillis();
         direccionService.eliminarPorId(eliminarDireccionPorIdDto.getId());
 
         BaseRespuestaDto baseRespuestaDto = new BaseRespuestaDto();
-        baseRespuestaDto.setMensaje(MensajeHelper.MENSAJE_EXITO);
-
-
+        baseRespuestaDto.setMensaje(MensajeHelper.OPERACION_CORRECTA);
+        baseRespuestaDto.setTiempoRespuesta(TiempoRespuestaHelper.obtenerPorMilisegundos(start));
         return ResponseEntity.ok(baseRespuestaDto);
     }
 }

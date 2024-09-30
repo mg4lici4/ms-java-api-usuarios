@@ -9,9 +9,6 @@ public class CrearUsuarioDto {
 	private String apellidoMaterno;
 	private String fechaNacimiento;
 
-    private long numeroCuenta;
-    private float ingresos;
-
-    private String codigoPostal;
-    private String estado;
+    private CrearCuentaDto cuenta;
+    private CrearDireccionDto direccion;
 }

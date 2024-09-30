@@ -5,4 +5,6 @@ import lombok.Data;
 @Data
 public class BaseRespuestaDto {
     private String mensaje;
+    private Object datos;
+    private String tiempoRespuesta;
 }

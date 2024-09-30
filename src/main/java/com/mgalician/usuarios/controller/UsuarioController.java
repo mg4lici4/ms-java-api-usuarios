@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mgalician.usuarios.helper.MensajeHelper;
+import com.mgalician.usuarios.helper.TiempoRespuestaHelper;
 import com.mgalician.usuarios.model.dto.ActualizarCuentaDto;
 import com.mgalician.usuarios.model.dto.BaseRespuestaDto;
 import com.mgalician.usuarios.model.dto.CrearUsuarioDto;
@@ -30,27 +31,51 @@ public class UsuarioController {
     }
 
     @GetMapping()
-    public ResponseEntity<List<UsuarioDto>> getAll() {
-        return ResponseEntity.ok(usuarioService.obtener());
+    public ResponseEntity<BaseRespuestaDto> getAll() {
+        long start = System.currentTimeMillis();
+        List<UsuarioDto> usuarioDtos = usuarioService.obtener();
+
+        BaseRespuestaDto baseRespuestaDto = new BaseRespuestaDto();
+        baseRespuestaDto.setMensaje(MensajeHelper.OPERACION_CORRECTA);
+        baseRespuestaDto.setDatos(usuarioDtos);
+        baseRespuestaDto.setTiempoRespuesta(TiempoRespuestaHelper.obtenerPorMilisegundos(start));
+        return ResponseEntity.ok(baseRespuestaDto);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UsuarioDto> getById(@PathVariable long id) {
-        return ResponseEntity.ok(usuarioService.obtenerPorId(id));
+    public ResponseEntity<BaseRespuestaDto> getById(@PathVariable long id) {
+
+        long start = System.currentTimeMillis();
+        UsuarioDto usuarioDto = usuarioService.obtenerPorId(id);
+
+        BaseRespuestaDto baseRespuestaDto = new BaseRespuestaDto();
+        baseRespuestaDto.setMensaje(MensajeHelper.OPERACION_CORRECTA);
+        baseRespuestaDto.setDatos(usuarioDto);
+        baseRespuestaDto.setTiempoRespuesta(TiempoRespuestaHelper.obtenerPorMilisegundos(start));
+        return ResponseEntity.ok(baseRespuestaDto);
     }
 
     @PostMapping()
-    public ResponseEntity<UsuarioDto> create(@RequestBody CrearUsuarioDto crearUsuarioDto) {
-        return ResponseEntity.ok(usuarioService.crearUsuario(crearUsuarioDto));
+    public ResponseEntity<BaseRespuestaDto> create(@RequestBody CrearUsuarioDto crearUsuarioDto) {
+        long start = System.currentTimeMillis();
+        UsuarioDto usuarioDto = usuarioService.crearUsuario(crearUsuarioDto);
+
+        BaseRespuestaDto baseRespuestaDto = new BaseRespuestaDto();
+        baseRespuestaDto.setMensaje(MensajeHelper.OPERACION_CORRECTA);
+        baseRespuestaDto.setDatos(usuarioDto);
+        baseRespuestaDto.setTiempoRespuesta(TiempoRespuestaHelper.obtenerPorMilisegundos(start));
+        return ResponseEntity.ok(baseRespuestaDto);
     }
 
     @PutMapping("/{idUsuario}/cuenta")
     public ResponseEntity<BaseRespuestaDto> putCuentaByIdUsuario(@PathVariable Long idUsuario,
             @RequestBody ActualizarCuentaDto actualizarCuentaDto) {
+        long start = System.currentTimeMillis();
         usuarioService.actualizarCuentaPorIdUsuario(idUsuario, actualizarCuentaDto);
 
         BaseRespuestaDto baseRespuestaDto = new BaseRespuestaDto();
-        baseRespuestaDto.setMensaje(MensajeHelper.MENSAJE_EXITO);
+        baseRespuestaDto.setMensaje(MensajeHelper.OPERACION_CORRECTA);
+        baseRespuestaDto.setTiempoRespuesta(TiempoRespuestaHelper.obtenerPorMilisegundos(start));
         return ResponseEntity.ok(baseRespuestaDto);
     }
 }
