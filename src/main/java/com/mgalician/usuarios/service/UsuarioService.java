@@ -62,7 +62,6 @@ public class UsuarioService {
         usuarioEntity.setDireccion(direccionEntity);
 
         return objectMapper.mapUsuarioEntityToUsuarioDto(usuarioRepository.save(usuarioEntity));
-
     }
 
     public void actualizarCuentaPorIdUsuario(Long idUsuario, ActualizarCuentaDto actualizarCuentaDto) {

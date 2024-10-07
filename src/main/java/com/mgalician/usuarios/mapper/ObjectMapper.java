@@ -7,6 +7,8 @@ import java.util.stream.Collectors;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import com.mgalician.usuarios.model.dto.CrearCuentaDto;
+import com.mgalician.usuarios.model.dto.CrearDireccionDto;
 import com.mgalician.usuarios.model.dto.CrearUsuarioDto;
 import com.mgalician.usuarios.model.dto.CuentaDto;
 import com.mgalician.usuarios.model.dto.DireccionDto;
@@ -30,7 +32,17 @@ public class ObjectMapper {
         return userDtos;
     }
 
-    public List<DireccionDto> mapListDireccionEntityToListDireccionDto(Iterable<DireccionEntity> iterableDireccionEntities) {
+    public List<CuentaDto> mapListCuentaEntityToListCuentaDto(Iterable<CuentaEntity> iterableCuentaEntities) {
+        List<CuentaEntity> cuentaEntities = new ArrayList<>();
+        iterableCuentaEntities.forEach(cuentaEntities::add);
+
+        return cuentaEntities.stream()
+                .map(CuentaEntity -> modelMapper.map(CuentaEntity, CuentaDto.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<DireccionDto> mapListDireccionEntityToListDireccionDto(
+            Iterable<DireccionEntity> iterableDireccionEntities) {
         List<DireccionEntity> direccionEntities = new ArrayList<>();
         iterableDireccionEntities.forEach(direccionEntities::add);
 
@@ -43,8 +55,24 @@ public class ObjectMapper {
         return modelMapper.map(crearUsuarioDto, UsuarioEntity.class);
     }
 
+    public DireccionDto mapDireccionEntityToDireccionDto(DireccionEntity direccionEntity) {
+        return modelMapper.map(direccionEntity, DireccionDto.class);
+    }
+
+    public DireccionEntity mapDireccionDtoToDireccionEntity(DireccionDto direccionDto) {
+        return modelMapper.map(direccionDto, DireccionEntity.class);
+    }
+
+    public DireccionEntity mapCrearDireccionDtoToDirreccionEntity(CrearDireccionDto crearDireccionDto) {
+        return modelMapper.map(crearDireccionDto, DireccionEntity.class);
+    }
+
     public UsuarioDto mapUsuarioEntityToUsuarioDto(UsuarioEntity usuarioEntity) {
         return modelMapper.map(usuarioEntity, UsuarioDto.class);
+    }
+
+    public CuentaEntity mapCuentaDtoToCuentaEntity(CrearCuentaDto crearCuentaDto) {
+        return modelMapper.map(crearCuentaDto, CuentaEntity.class);
     }
 
     public CuentaDto mapCuentaEntityToCuentaDto(CuentaEntity cuentaEntity) {

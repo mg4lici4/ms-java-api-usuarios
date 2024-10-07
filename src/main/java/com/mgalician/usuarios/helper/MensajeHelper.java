@@ -4,6 +4,8 @@ public class MensajeHelper {
 
     public static final String OPERACION_CORRECTA = "Operación correcta";
     public static final String ERROR_USUARIO_NO_ENCONTRADO = "Usuario no encontrado";
+    public static final String ERROR_CUENTA_NO_ENCONTRADA = "Cuenta no encontrada";
+    public static final String ERROR_DIRECCION_NO_ENCONTRADA = "Direccion no encontrada";
 
     public static final String ERROR_ID_NOT_NULL = "El campo id no debe ser nulo";
     public static final String ERROR_NOMBRE_NOT_NULL = "El campo nombre no debe ser nulo";

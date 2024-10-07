@@ -34,11 +34,11 @@ public class DatabaseInitializer implements CommandLineRunner {
         SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
 
         CuentaEntity cuenta1 = new CuentaEntity();
-        cuenta1.setNumeroCuenta(1275631);
+        cuenta1.setNumeroCuenta(1212341234);
         cuenta1.setIngresos(37450.50f);
         
         CuentaEntity cuenta2 = new CuentaEntity();
-        cuenta2.setNumeroCuenta(3465081);
+        cuenta2.setNumeroCuenta(1212341715);
         cuenta2.setIngresos(21000.00f);
 
         cuentaRepository.save(cuenta1);
